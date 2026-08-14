@@ -1,20 +1,17 @@
 const express = require('express');
 const app = express();
 
-// Endpoint API: /v1/assets/get?id=XXX&thumbnail=false
 app.get('/v1/assets/get', (req, res) => {
+    // 1. Ambil ID dari link (misal: d9ca31b7de144ad792b8ee8ba5788f96)
     const imageId = req.query.id;
-    const isThumbnail = req.query.thumbnail;
 
-    // Izinkan akses dari mana saja (CORS)
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    // 2. Arahkan/Redirect ke URL server penyimpanan gambar PDC yang asli
+    // (Sesuaikan URL domain tempat web PDC menyimpan gambarnya)
+    const pdcImageStorageUrl = `https://warehouse.onlypdc.com/uploads/${imageId}.jpg`;
 
-    // Kirim respon sementara untuk tes
-    res.send(`Berhasil dipanggil! ID Gambar: ${imageId}`);
+    // 3. Tampilkan/Alihkan langsung ke gambarnya
+    res.redirect(pdcImageStorageUrl);
 });
 
-// Jalankan server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server aktif di port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server aktif`));
