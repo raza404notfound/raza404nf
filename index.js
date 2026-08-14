@@ -2,15 +2,15 @@ const express = require('express');
 const app = express();
 
 app.get('/v1/assets/get', (req, res) => {
-    // 1. Ambil ID dari link (misal: d9ca31b7de144ad792b8ee8ba5788f96)
+    // Ambil ID gambar dan opsi thumbnail dari URL
     const imageId = req.query.id;
+    const isThumbnail = req.query.thumbnail || 'false';
 
-    // 2. Arahkan/Redirect ke URL server penyimpanan gambar PDC yang asli
-    // (Sesuaikan URL domain tempat web PDC menyimpan gambarnya)
-    const pdcImageStorageUrl = `https://warehouse.onlypdc.com/uploads/${imageId}.jpg`;
+    // Arahkan langsung ke serverApp Engine PDC Gudang yang asli
+    const targetUrl = `https://pdcgudang.et.r.appspot.com/v1/assets/get?id=${imageId}&thumbnail=${isThumbnail}`;
 
-    // 3. Tampilkan/Alihkan langsung ke gambarnya
-    res.redirect(pdcImageStorageUrl);
+    // Lakukan redirect (302)
+    res.redirect(targetUrl);
 });
 
 const PORT = process.env.PORT || 3000;
